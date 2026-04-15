@@ -17,3 +17,4 @@
 /Users/ariali/Synapse/Synapse.Infrastructure/obj/Debug/net8.0/ref/Synapse.Infrastructure.dll
 /Users/ariali/Synapse/Synapse.Infrastructure/bin/Debug/net8.0/Synapse.Infrastructure.runtimeconfig.json
 /Users/ariali/Synapse/Synapse.Infrastructure/obj/Debug/net8.0/Synapse.Infrastructure.genruntimeconfig.cache
+/Users/ariali/Synapse/Synapse.Infrastructure/obj/Debug/net8.0/Synapse.Infrastructure.sourcelink.json

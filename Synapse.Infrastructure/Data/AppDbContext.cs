@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Synapse.Domain.Entities;
-using Synapse.Application.Interfaces;
 
 namespace Synapse.Infrastructure.Data;
 

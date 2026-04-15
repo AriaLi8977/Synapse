@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "u/93+FU27VI=",
+  "dgSpecHash": "qWgbM53efi4=",
   "success": true,
   "projectFilePath": "/Users/ariali/Synapse/Synapse.Api/Synapse.Api.csproj",
   "expectedPackageFiles": [
@@ -88,7 +88,8 @@
     "/Users/ariali/.nuget/packages/system.text.json/8.0.5/system.text.json.8.0.5.nupkg.sha512",
     "/Users/ariali/.nuget/packages/system.threading.channels/6.0.0/system.threading.channels.6.0.0.nupkg.sha512",
     "/Users/ariali/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512",
-    "/Users/ariali/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512"
+    "/Users/ariali/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512",
+    "/Users/ariali/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.25/microsoft.netcore.app.host.linux-x64.8.0.25.nupkg.sha512"
   ],
   "logs": []
 }

@@ -9,3 +9,4 @@
 /Users/ariali/Synapse/Synapse.Domain/obj/Debug/net8.0/refint/Synapse.Domain.dll
 /Users/ariali/Synapse/Synapse.Domain/obj/Debug/net8.0/Synapse.Domain.pdb
 /Users/ariali/Synapse/Synapse.Domain/obj/Debug/net8.0/ref/Synapse.Domain.dll
+/Users/ariali/Synapse/Synapse.Domain/obj/Debug/net8.0/Synapse.Domain.sourcelink.json
