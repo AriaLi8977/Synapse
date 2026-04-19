@@ -17,3 +17,16 @@ resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@20
     publicAccess: 'None'
   }
 }
+
+resource serviceBus 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' = {
+  name: 'synapse-bus'
+  location: location
+  sku: {
+    name: 'Basic'
+    tier: 'Basic'
+  }
+}
+
+resource queue 'Microsoft.ServiceBus/namespaces/queues@2022-10-01-preview' = {
+  name: '${serviceBus.name}/note-queue'
+}

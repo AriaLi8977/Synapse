@@ -17,6 +17,7 @@ builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBlobService, BlobService>();
+builder.Services.AddScoped<IMessageBus, ServiceBus>();
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();

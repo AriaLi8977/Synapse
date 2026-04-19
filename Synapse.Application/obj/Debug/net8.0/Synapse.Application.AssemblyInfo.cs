@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Synapse.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f77c016b87a7f7b45baca4fd7411c839f6fbe470")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7bfb3b086ab63538198698f5235d08c4310fea3c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Synapse.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Synapse.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,15 +2,17 @@ using Synapse.Application.DTOs;
 using Synapse.Application.Interfaces;
 using Synapse.Domain.Entities;
 
+
 namespace Synapse.Application.Services;
 
 public class NoteService : INoteService
 {
     private readonly INoteRepository _noteRepository;
-
-    public NoteService(INoteRepository noteRepository)
+    private readonly IMessageBus _messageBus;
+    public NoteService(INoteRepository noteRepository, IMessageBus messageBus)
     {
         _noteRepository = noteRepository;
+        _messageBus = messageBus;
     }
 
     public async Task<List<Note>> GetAllAsync(Guid userId)
@@ -27,6 +29,7 @@ public class NoteService : INoteService
             CreatedAt = DateTime.UtcNow
         };
         await _noteRepository.AddAsync(note, userId);
+        await _messageBus.PublishNoteCreatedAsync(note.Id, note.Content);
         return note;
     }
 

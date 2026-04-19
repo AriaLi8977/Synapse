@@ -146,3 +146,6 @@
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/Microsoft.Extensions.Primitives.dll
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/System.ClientModel.dll
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/System.IO.Hashing.dll
+/Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/Azure.Core.Amqp.dll
+/Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/Azure.Messaging.ServiceBus.dll
+/Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/Microsoft.Azure.Amqp.dll
