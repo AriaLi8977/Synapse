@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Synapse.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7bfb3b086ab63538198698f5235d08c4310fea3c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c544a062d11273f25f0aa4085c8336953d137396")]
 [assembly: System.Reflection.AssemblyProductAttribute("Synapse.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Synapse.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

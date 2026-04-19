@@ -12,7 +12,6 @@
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/publish/Azure.Storage.Common.dll
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/publish/BCrypt.Net-Next.dll
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/publish/Microsoft.AspNetCore.Authentication.JwtBearer.dll
-/Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/publish/Microsoft.AspNetCore.OpenApi.dll
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/publish/Microsoft.Azure.Amqp.dll
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/publish/Microsoft.Bcl.AsyncInterfaces.dll
 /Users/ariali/Synapse/Synapse.Api/bin/Release/net8.0/linux-x64/publish/Microsoft.Data.SqlClient.dll

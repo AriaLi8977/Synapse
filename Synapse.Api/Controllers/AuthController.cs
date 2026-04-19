@@ -14,6 +14,8 @@ public class AuthController : ControllerBase{
     {
         _authService = authService;
     }
+    
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto dto){
         if(!ModelState.IsValid)
@@ -22,6 +24,7 @@ public class AuthController : ControllerBase{
         return Ok(token);
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto dto){
         if(!ModelState.IsValid)
