@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using DotNetEnv;
+
+Env.Load("../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,12 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBlobService, BlobService>();
 builder.Services.AddScoped<IMessageBus, ServiceBus>();
+
+builder.Configuration.AddEnvironmentVariables();
+
+var jwtSettings = new JwtSettings();
+builder.Configuration.Bind("Jwt", jwtSettings);
+builder.Services.AddSingleton(jwtSettings);
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -54,6 +63,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=synapse.db"));
 
+var key = jwtSettings.Key;
 // Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -64,7 +74,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super_secret_key_123!")),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
             ClockSkew = TimeSpan.Zero
         };
     });
@@ -79,7 +89,12 @@ if(true) //for cloud
     app.UseSwaggerUI();
 }
 
-app.UseExceptionHandler("/error");
+//app.UseExceptionHandler("/error");
+app.Map("/error", (HttpContext httpContext) =>
+{
+    var exception = httpContext.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>()?.Error;
+    return Results.Problem(detail: exception?.Message);
+});
 
 app.UseHttpsRedirection();
 
