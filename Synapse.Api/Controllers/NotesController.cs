@@ -12,10 +12,13 @@ namespace Synapse.Api.Controllers;
 public class NotesController : ControllerBase
 {
     private readonly INoteService _noteService;
+    private readonly CreateNoteUseCase _useCase;
 
-    public NotesController(INoteService noteService)
+    public NotesController(INoteService noteService,
+                            CreateNoteUseCase useCase)
     {
         _noteService = noteService;
+        _useCase = useCase;
     }
 
     [Authorize]
@@ -34,7 +37,7 @@ public class NotesController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var result = await _noteService.CreateAsync(dto, Guid.Parse(userId));
+        var result = await _useCase.ExecuteAsync(content);
         return Ok(result);
     }
 }
