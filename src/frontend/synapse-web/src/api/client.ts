@@ -1,0 +1,15 @@
+const API_BASE = "https://localhost:5001/api";
+
+export async function createNote(content: string){
+    const response = await fetch(`${API_BASE}/notes`,{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify({content})
+    })
+    if(!response.ok){
+        throw new Error("Failed to create note");
+    }
+    return await response.json();
+}
