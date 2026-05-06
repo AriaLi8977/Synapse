@@ -2,14 +2,13 @@ using Microsoft.AspNetCore.SignalR;
 using System.Linq;
 using System.Security.Claims;
 
+namespace Synapse.Api.Hubs;
 public class CustomerUserIdProvider : IUserIdProvider
 {
-    public string GetUserId(HubConnectionContext context)
+    public string? GetUserId(HubConnectionContext connection)
     {
-        // Extract the user ID from the connection context
-        // var userIdClaim = context.User?.Claims.FirstOrDefault(c => c.Type == "sub");
-        // return userIdClaim?.Value ?? string.Empty;
-
-        return context.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+        return connection.User?
+            .FindFirst(ClaimTypes.NameIdentifier)?
+            .Value;
     }
 }

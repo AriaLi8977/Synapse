@@ -1,3 +1,5 @@
+using Synapse.Domain.Enums;
+
 namespace Synapse.Domain.Entities;
 
 public class Note
@@ -9,4 +11,6 @@ public class Note
     public DateTime CreatedAt { get; set; }
     public Guid UserId { get; set; }
     public User User { get; set; } = null!;
+
+    public NoteStatus Status { get; set; }
 }

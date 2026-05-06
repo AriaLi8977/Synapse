@@ -9,6 +9,9 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using DotNetEnv;
 using Synapse.Infrastructure.Settings;
+using Synapse.Api.Hubs;
+using Synapse.Api.Services;
+using Microsoft.AspNetCore.SignalR;
 
 Env.Load("../.env");
 
@@ -23,8 +26,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBlobService, BlobService>();
 builder.Services.AddScoped<IMessageBus, ServiceBus>();
-builder.Service.AddScoped<IAiService, AiService>();
-builder.Service.AddScoped<INotificationService, SignalRNotificationService>();
+builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
 
 builder.Configuration.AddEnvironmentVariables();
 
@@ -75,6 +77,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 //     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=synapse.db"));
 
+
 var key = jwtSettings.Key;
 // Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -89,9 +92,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
             ClockSkew = TimeSpan.Zero
         };
+
+        //read token from query
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    context.HttpContext.Request.Path.StartsWithSegments("/hubs/notes"))
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<IUserIdProvider, CustomerUserIdProvider>();
 
 var app = builder.Build();
 

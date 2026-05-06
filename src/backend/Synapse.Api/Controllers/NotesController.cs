@@ -4,9 +4,12 @@ using Synapse.Domain.Entities;
 using Synapse.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Synapse.Application.UseCases;
+
 
 namespace Synapse.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/Notes")]
 public class NotesController : ControllerBase
@@ -21,23 +24,24 @@ public class NotesController : ControllerBase
         _useCase = useCase;
     }
 
-    [Authorize]
+
     [HttpGet("GetNotes")]
     public async Task<IActionResult> Get()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+        if (userId == null)
+            return Unauthorized();
         var notes = await _noteService.GetAllAsync(Guid.Parse(userId));
         return Ok(notes);
     }
 
-    [Authorize]
     [HttpPost("CreateNotes")]
     public async Task<IActionResult> Create(CreateNoteDto dto)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        var result = await _useCase.ExecuteAsync(content);
+        if (userId == null)
+            return Unauthorized();
+        var result = await _useCase.ExecuteAsync(dto.Content, Guid.Parse(userId));
         return Ok(result);
     }
 }

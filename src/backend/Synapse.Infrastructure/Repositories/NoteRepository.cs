@@ -25,4 +25,23 @@ public class NoteRepository : INoteRepository
         await _db.SaveChangesAsync();
         return note;
     }
+
+    public async Task<Note?> GetByIdAsync(Guid id)
+    {
+        return await _db.Notes
+                    .FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task UpdateAsync(Note note)
+    {
+        var existing = await _db.Notes.FindAsync(note.Id);
+
+        if (existing == null)
+            throw new Exception("Note not found");
+
+        existing.Content = note.Content;
+        existing.Summary = note.Summary;
+        existing.Status = note.Status;
+        await _db.SaveChangesAsync();
+    }
 }

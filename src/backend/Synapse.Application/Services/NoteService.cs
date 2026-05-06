@@ -30,8 +30,8 @@ public class NoteService : INoteService
             UserId = userId
         };
         await _noteRepository.AddAsync(note);
-        await _messageBus.PublishNoteCreatedAsync(note.Id, note.Content);
-        return note.id;
+        await _messageBus.PublishAsync(new { note.Id, note.Content });
+        return note.Id;
     }
 
 }
