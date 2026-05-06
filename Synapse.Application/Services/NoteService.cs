@@ -20,17 +20,18 @@ public class NoteService : INoteService
         return await _noteRepository.GetAllAsync(userId);
     }
 
-    public async Task<Note> CreateAsync(CreateNoteDto dto, Guid userId)
+    public async Task<Guid> CreateAsync(CreateNoteDto dto, Guid userId)
     {
         var note = new Note
         {
             Id = Guid.NewGuid(),
             Content = dto.Content,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            UserId = userId
         };
-        await _noteRepository.AddAsync(note, userId);
+        await _noteRepository.AddAsync(note);
         await _messageBus.PublishNoteCreatedAsync(note.Id, note.Content);
-        return note;
+        return note.id;
     }
 
 }

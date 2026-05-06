@@ -19,7 +19,7 @@ public class NoteRepository : INoteRepository
                 .ToListAsync();
     }
 
-    public async Task<Note> AddAsync(Note note, Guid userId)
+    public async Task<Note> AddAsync(Note note)
     {
         _db.Notes.Add(note);
         await _db.SaveChangesAsync();

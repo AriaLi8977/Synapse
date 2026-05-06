@@ -1,6 +1,6 @@
 using OpenAI;
 
-public class AiService
+public class AiService : IAiService
 {
     private readonly OpenAIClient _client;
 

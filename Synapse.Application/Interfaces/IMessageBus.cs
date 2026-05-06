@@ -2,5 +2,5 @@ namespace Synapse.Application.Interfaces;
 
 public interface IMessageBus
 {
-    Task PublishNoteCreatedAsync(Guid noteId, string content);
+    Task PublishAsync<T>(T message);
 }

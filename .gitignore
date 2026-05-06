@@ -1,5 +1,5 @@
 .azure
-Synapse.Api/appsettings.Development.json
+appsettings.Development.json
 **/bin/
 **/obj/
 *.user

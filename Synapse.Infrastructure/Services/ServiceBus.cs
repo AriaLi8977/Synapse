@@ -2,6 +2,8 @@ using Azure.Messaging.ServiceBus;
 using System.Text.Json;
 using Synapse.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
+using Synapse.Infrastructure.Settings;
+using Microsoft.Extensions.Options;
 
 namespace Synapse.Infrastructure.Services;
 
@@ -9,22 +11,28 @@ public class ServiceBus : IMessageBus
 {
     private readonly ServiceBusSender _sender;
 
-    public ServiceBus(IConfiguration config)
+    public ServiceBus(IOptions<ServiceBusSettings> options)
     {
-        var client = new ServiceBusClient(config["ServiceBus"]);
-        _sender = client.CreateSender("NotesQueue");
+        var settings = options.Value;
+
+        if(string.IsNullOrEmpty(settings.ConnectionString))
+            throw new ArgumentException("Service Bus connection string is not configured.");
+
+        var client = new ServiceBusClient(settings.ConnectionString);
+        _sender = client.CreateSender(settings.QueueName);
     }
 
-    public async Task PublishNoteCreatedAsync(Guid noteId, string content)
+    public async Task PublishAsync<T>(T message)
     {
-        var message = new
-        {
-            NoteId = noteId,
-            Content = content
-        };
-
         var json = JsonSerializer.Serialize(message);
 
-        await _sender.SendMessageAsync(new ServiceBusMessage(json));
+        try
+        {
+            await _sender.SendMessageAsync(new ServiceBusMessage(json));
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"ServiceBus error: {ex.Message}");
+        }
     }
 }
