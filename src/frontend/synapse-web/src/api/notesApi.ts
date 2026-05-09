@@ -13,3 +13,16 @@ export async function createNote(content: string){
     }
     return await response.json();
 }
+
+export async function getNotes(){
+    const response = await fetch(`${API_BASE}/notes`,{
+        method:"GET",
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+    if(!response.ok){
+        throw new Error("Failed to fetch notes");
+    }
+    return await response.json();
+}
