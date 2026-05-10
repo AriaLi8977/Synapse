@@ -1,8 +1,8 @@
 using Synapse.Application.Interfaces;
-using Synapse.Api.Hubs;
+using Synapse.Infrastructure.Realtime;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Synapse.Api.Services;
+namespace Synapse.Infrastructure.Services;
 
 public class SignalRNotificationService : INotificationService
 {

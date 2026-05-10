@@ -1,18 +1,18 @@
 using Azure.Messaging.ServiceBus;
 using System.Text.Json;
 using Synapse.Worker.Services;
-
+using Synapse.Domain.Enums;
 
 namespace Synapse.Worker;
 
 public class NoteProcessWorker : BackgroundService
 {
-    private readonly ILogger<Worker> _logger;
+    private readonly ILogger<NoteProcessWorker> _logger;
     private readonly ServiceBusProcessor _processor;
     private readonly IAiService _ai;
     private readonly INoteRepository _noteRepository;
     private readonly INotificationService _notifier;
-    public NoteProcessWorker(ILogger<Worker> logger,
+    public NoteProcessWorker(ILogger<NoteProcessWorker> logger,
                             ServiceBusClient client,
                             IAiService ai,
                             INoteRepository noteRepository,
@@ -30,7 +30,7 @@ public class NoteProcessWorker : BackgroundService
         _processor.ProcessMessageAsync += HandleMessage;
         _processor.ProcessErrorAsync += ErrorHandler;
 
-        await processor.StartProcessingAsync(stoppingToken);
+        await _processor.StartProcessingAsync(stoppingToken);
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -42,10 +42,11 @@ public class NoteProcessWorker : BackgroundService
     {
         var json = args.Message.Body.ToString();
         var message = System.Text.Json.JsonSerializer.Deserialize<NoteMessage>(json);
-        _logger.LogInformation($"Processing note: Id:{message.NoteId},Content:{message.Content}");
+        if (message == null) return;
+        _logger.LogInformation($"Processing note: Id:{message.NoteId}");
 
-        var noteId = Guid.Parse(message["NoteId"]);
-        var userId = Guid.Parse(message["UserId"]);
+        var noteId = message.NoteId;
+        var userId = message.Content;
 
         var note = await _noteRepository.GetByIdAsync(noteId);
         if (note == null) return;
@@ -56,7 +57,7 @@ public class NoteProcessWorker : BackgroundService
 
         try
         {
-            var summary = await ai.SummarizeAsync(message.Content);
+            var summary = await _ai.SummarizeAsync(message.Content ?? "");
             note.Summary = summary;
             note.Status = NoteStatus.Completed;
         }
@@ -67,7 +68,7 @@ public class NoteProcessWorker : BackgroundService
 
         await _noteRepository.UpdateAsync(note);
 
-        await _notifier.NotifyNoteCompleted(note.Id, note.Summary);
+        await _notifier.NotifyNoteCompleted(note.Id, note.Summary??"No summary generated", note.UserId);
     }
 
     private Task ErrorHandler(ProcessErrorEventArgs args)
@@ -80,5 +81,5 @@ public class NoteProcessWorker : BackgroundService
 public class NoteMessage
 {
     public Guid NoteId { get; set; }
-    public string Content { get; set; }
+    public string? Content { get; set; }
 }

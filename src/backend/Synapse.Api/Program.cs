@@ -9,11 +9,12 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using DotNetEnv;
 using Synapse.Infrastructure.Settings;
-using Synapse.Api.Hubs;
-using Synapse.Api.Services;
+using Synapse.Api.Providers;
 using Microsoft.AspNetCore.SignalR;
+using Synapse.Infrastructure.Realtime;
 
-Env.Load("../.env");
+
+Env.Load("../../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 

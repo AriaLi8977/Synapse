@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace Synapse.Api.Hubs;
+namespace Synapse.Infrastructure.Realtime;
 
 [Authorize]
 public class NoteHub : Hub
