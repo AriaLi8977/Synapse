@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.SignalR;
 using Synapse.Infrastructure.Realtime;
 
 
-Env.Load("../../.env");
+Env.Load("../../../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,9 +31,7 @@ builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
 
 builder.Configuration.AddEnvironmentVariables();
 
-var jwtSettings = new JwtSettings();
-builder.Configuration.Bind("Jwt", jwtSettings);
-builder.Services.AddSingleton(jwtSettings);
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
 var ServiceBusSettingsSection = builder.Configuration.GetSection("ServiceBus");
 builder.Services.Configure<ServiceBusSettings>(ServiceBusSettingsSection);
@@ -79,6 +77,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=synapse.db"));
 
 
+var jwtSettings = builder.Configuration
+                        .GetSection("Jwt")
+                        .Get<JwtSettings>()
+                        ?? throw new Exception("Jwt settings missing.");
+if (string.IsNullOrEmpty(jwtSettings.Key))
+{
+    throw new Exception("Jwt: Key is missing");
+}
 var key = jwtSettings.Key;
 // Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

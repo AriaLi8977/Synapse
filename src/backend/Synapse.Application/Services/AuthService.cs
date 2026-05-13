@@ -5,6 +5,7 @@ using Synapse.Application.DTOs;
 using Synapse.Application.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Options;
 
 namespace Synapse.Application.Services;
 
@@ -13,10 +14,10 @@ public class AuthService : IAuthService
     private readonly IUserRepository _userRepository;
     private readonly JwtSettings _jwtSettings;
 
-    public AuthService(IUserRepository userRepository, JwtSettings jwtSettings)
+    public AuthService(IUserRepository userRepository, IOptions<JwtSettings> jwtOptions)
     {
         _userRepository = userRepository;
-        _jwtSettings = jwtSettings;
+        _jwtSettings = jwtOptions.Value;
     }
 
     public async Task<string> RegisterAsync(RegisterDto dto)

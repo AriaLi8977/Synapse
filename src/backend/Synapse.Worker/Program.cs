@@ -6,9 +6,9 @@ using Synapse.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Synapse.Infrastructure.Data;
 using Synapse.Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection;
 
-
-Env.Load("../../.env");
+Env.Load("../../../.env");
 
 var builder = Host.CreateApplicationBuilder(args);
 
