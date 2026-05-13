@@ -1,10 +1,14 @@
+import { getToken } from "../auth/tokenStorage";
+
 const API_BASE = "https://localhost:5001/api";
 
 export async function createNote(content: string){
+    const token = getToken();
     const response = await fetch(`${API_BASE}/notes`,{
         method:"POST",
         headers:{
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`, //include token for authentication
         },
         body: JSON.stringify({content})
     })

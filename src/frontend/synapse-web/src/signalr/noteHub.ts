@@ -1,11 +1,14 @@
 import * as signalR from "@microsoft/signalr";
+import { getToken } from "../auth/tokenStorage";
 
 class NoteHubService {
     private connection: signalR.HubConnection;
 
     constructor(){
         this.connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:5001/hubs/notes")
+            .withUrl("https://localhost:5001/hubs/notes",{
+                accessTokenFactory: () => getToken() || "", //provide token for authentication
+            })
             .withAutomaticReconnect()
             .build();
     }

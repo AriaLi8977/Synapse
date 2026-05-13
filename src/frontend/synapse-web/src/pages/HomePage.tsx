@@ -4,8 +4,13 @@ import { createNote } from "../api/notesApi";
 import type { Note } from "../types/note";
 import { NoteCard } from "../components/NoteCard";
 import { NoteForm } from "../components/NoteForm";
+import { Navbar } from "../components/Navbar";
 
-export function HomePage(){
+interface Props{
+    onLogout: ()=> void;
+}
+
+export function HomePage({onLogout}: Props){
     const [notes, setNotes] = useState<Note[]>([]);
     useEffect(()=>{
         noteHub.start();
@@ -26,6 +31,7 @@ export function HomePage(){
 
     return(
         <div style={{ padding: 24}}>
+            <Navbar onLogout={onLogout} />
             <h1>AI Summary Notes</h1>
             <NoteForm onCreate={handleCreate}/>
             {notes.map((note) => (

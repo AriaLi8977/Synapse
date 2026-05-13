@@ -1,0 +1,45 @@
+import { useState } from "react";
+import { login } from "../api/authApi";
+import { saveToken } from "../auth/tokenStorage";
+
+interface Props{
+    onLoginSuccess: () => void;
+    onGoToRegister: () => void;
+}
+
+export function LoginPage({ onLoginSuccess, onGoToRegister}: Props){
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleLogin = async()=>{
+        try{
+            const data = await login(email, password);
+            saveToken(data.token);
+            onLoginSuccess();
+        }catch(error){
+            alert("Login failed: " + error.message);
+        }
+    }
+
+    return(
+        <div style={{ padding: 24}}>
+            <h1>Login</h1>
+            <input
+                placeholder="Email"
+                value={email}   
+                onChange={(e) => setEmail(e.target.value)}
+                style={{ display: "block", marginBottom: 12, width: "100%"}}/>
+            <br/><br/>
+            <input
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ display: "block", marginBottom: 12, width: "100%"}}/>
+            <br/><br/>
+            <button onClick={handleLogin}>Login</button>
+            <br/><br/>
+            <button onClick={onGoToRegister}>Register</button>
+        </div>
+    )
+}
