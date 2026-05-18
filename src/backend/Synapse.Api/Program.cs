@@ -1,5 +1,6 @@
 using Synapse.Application.Interfaces;
 using Synapse.Application.Services;
+using Synapse.Application.UseCases;
 using Synapse.Infrastructure.Data;
 using Synapse.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBlobService, BlobService>();
 builder.Services.AddScoped<IMessageBus, ServiceBus>();
 builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
+
+builder.Services.AddScoped<CreateNoteUseCase>();
 
 builder.Configuration.AddEnvironmentVariables();
 

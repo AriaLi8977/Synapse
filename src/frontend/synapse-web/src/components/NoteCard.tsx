@@ -2,19 +2,38 @@ import type { Note } from "../types/note";
 
 interface Props{ note: Note;}
 
-export function NoteCard({note}: Props){
-    return(
-        <div style={{
-            border: "1px solid #ccc",
-            borderRadius: 5,
-            padding: 10,
-            marginBottom: 10
-        }}>
-            <div><strong>Content:</strong> {note.content}</div>
-            <div><strong>Status:</strong> {note.status}</div>
-            {note.summary && <div><strong>Summary:</strong> {note.summary}</div>}
-            <div><small>Created At: {new Date(note.createdAt).toLocaleString()}</small></div> 
-        </div>  
+export function NoteCard({ note }: Props) {
+    return (
+      <div className="bg-white rounded-xl shadow p-5">
+  
+        <div className="flex justify-between items-center">
+  
+          <h3 className="font-semibold text-lg">
+            Note
+          </h3>
+  
+          <span className="text-sm text-gray-500">
+            {note.status}
+          </span>
+        </div>
+  
+        <p className="mt-4 text-gray-700 whitespace-pre-wrap">
+          {note.content}
+        </p>
+  
+        {note.summary && (
+          <>
+            <hr className="my-4" />
+  
+            <h4 className="font-medium mb-2">
+              AI Summary
+            </h4>
+  
+            <p className="text-gray-700">
+              {note.summary}
+            </p>
+          </>
+        )}
+      </div>
     );
-
-}
+  }

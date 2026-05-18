@@ -1,4 +1,4 @@
-const API_BASE = "https://localhost:5001/api";
+const API_BASE = "http://localhost:8080/api/auth";
 
 export async function login(email: string, password: string){
     const response = await fetch(`${API_BASE}/login`,{
@@ -18,13 +18,14 @@ export async function login(email: string, password: string){
     return response.json();
 }
 
-export async function register(email: string, password: string){
+export async function register(name: string, email: string, password: string){
     const response = await fetch(`${API_BASE}/register`,{
         method: "POST",
         headers:{
             "Content-Type":"application/json",
         },
         body: JSON.stringify({
+            name,
             email, 
             password,
         }),

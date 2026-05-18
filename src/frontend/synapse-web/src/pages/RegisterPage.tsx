@@ -14,10 +14,11 @@ export function RegisterPage({
 
     const [email,setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setUserName] = useState("");
 
     const handleRegister = async () => {
         try{
-            const data = await register(email, password);
+            const data = await register(name, email, password);
             saveToken(data.token);
             onRegisterSuccess();
         }catch(error){
@@ -27,6 +28,11 @@ export function RegisterPage({
     return(
         <div style={{ padding: 24}}>
             <h1>Register</h1>
+            <input
+                placeholder="UserName"
+                value={name}
+                onChange={(e) => setUserName(e.target.value)}></input>
+            <br/><br/>
             <input
                 placeholder="Email"
                 value={email}

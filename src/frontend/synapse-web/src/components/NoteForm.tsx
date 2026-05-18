@@ -12,18 +12,39 @@ export function NoteForm({ onCreate }: Props){
         await onCreate(content);
         setContent("");
     };
-    return(
-        <div style={{ marginBottom: 20}}>
-            <textarea 
-                value={content} 
-                onChange={(e) => setContent(e.target.value)} 
-                rows={5} 
-                cols={50}
-                placeholder="Enter note content here..."/>
-            <br/>
-            <button onClick={handleCreate}>Create Note</button>
+    return (
+        <div>
+      
+          <textarea
+            rows={5}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="
+              w-full
+              border
+              rounded-lg
+              p-3
+              focus:outline-none
+              focus:ring
+            "
+            placeholder="Write your note here..."
+          />
+      
+          <button
+            onClick={handleCreate}
+            className="
+              mt-4
+              bg-black
+              text-white
+              px-4
+              py-2
+              rounded-lg
+            "
+          >
+            Create Note
+          </button>
         </div>
-    );
+      );
 
 }
 

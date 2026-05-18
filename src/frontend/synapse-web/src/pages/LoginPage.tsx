@@ -6,6 +6,13 @@ interface Props{
     onLoginSuccess: () => void;
     onGoToRegister: () => void;
 }
+export function Test() {
+    return (
+      <div className="bg-red-500 text-white p-10">
+        TAILWIND TEST
+      </div>
+    );
+  }
 
 export function LoginPage({ onLoginSuccess, onGoToRegister}: Props){
     const [email, setEmail] = useState("");

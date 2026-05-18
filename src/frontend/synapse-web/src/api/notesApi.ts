@@ -1,10 +1,10 @@
 import { getToken } from "../auth/tokenStorage";
 
-const API_BASE = "https://localhost:5001/api";
+const API_BASE = "http://localhost:8080/api/Notes";
 
 export async function createNote(content: string){
     const token = getToken();
-    const response = await fetch(`${API_BASE}/notes`,{
+    const response = await fetch(`${API_BASE}/CreateNotes`,{
         method:"POST",
         headers:{
             "Content-Type":"application/json",
@@ -19,10 +19,12 @@ export async function createNote(content: string){
 }
 
 export async function getNotes(){
-    const response = await fetch(`${API_BASE}/notes`,{
+    const token = getToken();
+    const response = await fetch(`${API_BASE}/GetNotes`,{
         method:"GET",
         headers:{
-            "Content-Type":"application/json"
+            Authorization: `Bearer ${token}`,
+            //"Content-Type":"application/json"
         }
     })
     if(!response.ok){

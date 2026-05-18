@@ -21,7 +21,7 @@ public class AuthController : ControllerBase{
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
         var token = await _authService.RegisterAsync(dto);
-        return Ok(token);
+        return Ok(new { token });
     }
 
     [AllowAnonymous]
@@ -30,7 +30,7 @@ public class AuthController : ControllerBase{
         if(!ModelState.IsValid)
             return BadRequest(ModelState);
         var token = await _authService.LoginAsync(dto);
-        return Ok(token);
+        return Ok(new { token });
     }
     
 }
