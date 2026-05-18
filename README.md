@@ -2,8 +2,6 @@
 
 Event-driven note management system with AI-powered summarization, built using .NET and Azure.
 
-TBD: knowledge base for team collaboration, with auto tag generater and note search
-
 🚀 Overview
 
 This project demonstrates a scalable, event-driven backend system where user-created notes are processed asynchronously using AI.
@@ -17,6 +15,11 @@ Instead of processing requests synchronously, the system leverages message queue
 	Database: SQL Server / SQLite
 	Real-time: SignalR
 	Cloud: Azure Container Apps
+
+	The application supports Azure deployment using:
+		 Azure App Service & Azure SQL Database
+	For simplicity and accessibility, the default local setup uses SQLite.
+
 
 ✨ Features
 
@@ -39,7 +42,17 @@ Instead of processing requests synchronously, the system leverages message queue
 🛠 Getting Started
 
 	Run locally
-	git clone https://github.com/your-repo
+	git clone https://github.com/...(TBD)
 	cd your-repo
 	dotnet build
 	dotnet run
+
+📈 Future Roadmaps:
+	1. note tags auto generated
+	2. search function
+	3. Markdown support
+	4. file uploads
+	5. ...-> team collaboration tool
+
+🗄️ Lesson Learned: 
+
