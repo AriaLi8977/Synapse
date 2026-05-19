@@ -16,7 +16,7 @@ public class CreateNoteUseCase
         _mesBus = mesbus;
     }
 
-    public async Task<Guid> ExecuteAsync(string content, Guid userId)
+    public async Task<Note> ExecuteAsync(string content, Guid userId)
     {
         var note = new Note
         {
@@ -32,6 +32,6 @@ public class CreateNoteUseCase
             NoteId = note.Id,
             Content = note.Content
         });
-        return note.Id;
+        return note;
     }
 }

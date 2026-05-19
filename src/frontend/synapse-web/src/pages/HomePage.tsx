@@ -31,6 +31,13 @@ export function HomePage({onLogout}: Props){
 
         noteHub.start();
 
+        noteHub.onNoteProcessing((data)=>{
+            setNotes((prev)=>
+                prev.map((note)=>
+                    note.id === data.noteId ? {...note, status: "Processing", summary: data.summary} : note)
+            )
+        })
+
         noteHub.onNoteCompleted((data)=>{
             setNotes((prev)=>
                 prev.map((note)=>
@@ -40,9 +47,15 @@ export function HomePage({onLogout}: Props){
     }, []);
 
     const handleCreate = async (content: string) => {
-        const newNote = await createNote(content);
-        setNotes((prev) => [...prev, newNote]);
-        await noteHub.joinNoteGroup(newNote.id);
+        try{
+            const newNote = await createNote(content);
+            setNotes((prev) => [newNote,...prev]);
+            await noteHub.joinNoteGroup(newNote.id);
+        }catch{
+                alert("Failed to create note: ");
+                return;
+        }
+        
     };
 
     return (

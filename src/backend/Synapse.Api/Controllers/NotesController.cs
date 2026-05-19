@@ -41,7 +41,7 @@ public class NotesController : ControllerBase
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
             return Unauthorized();
-        var result = await _useCase.ExecuteAsync(dto.Content, Guid.Parse(userId));
-        return Ok(result);
+        var note = await _useCase.ExecuteAsync(dto.Content, Guid.Parse(userId));
+        return Ok(note);
     }
 }

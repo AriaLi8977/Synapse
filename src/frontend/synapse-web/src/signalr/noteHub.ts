@@ -23,6 +23,10 @@ class NoteHubService {
         await this.connection.invoke("JoinNoteGroup", noteId);
     }
 
+    onNoteProcessing(callback: (data: {noteId: string, summary: string}) => void){
+        this.connection.on("NoteProcessing", callback);
+    }
+
     onNoteCompleted(callback: (data: {noteId: string, summary: string}) => void){
         this.connection.on("NoteCompleted", callback);
     }
