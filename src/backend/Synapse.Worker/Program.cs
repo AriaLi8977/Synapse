@@ -18,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSignalR();
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<IAiService, AiService>();
 
 builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
 

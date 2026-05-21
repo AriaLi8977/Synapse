@@ -56,6 +56,7 @@ export function HomePage(){
             const newNote: Note = {
               id: result.noteId,
               content,
+              title: "",
               status: "Processing",
               createdAt: new Date().toISOString(),
             };

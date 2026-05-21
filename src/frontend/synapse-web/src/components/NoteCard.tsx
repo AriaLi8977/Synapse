@@ -32,7 +32,7 @@ export function NoteCard({ note }: Props) {
         <div className="flex justify-between items-center">
   
           <h3 className="font-semibold text-lg">
-            Note ID: <Link to={`/notes/${note.id}`} className="text-blue-600 hover:underline">{note.id}</Link>
+            Note: <Link to={`/notes/${note.id}`} className="text-blue-600 hover:underline">{note.title}</Link>
           </h3>
   
           <span className={`text-sm rounded-full font-medium ${statusInfo.color} px-2 py-1`}>

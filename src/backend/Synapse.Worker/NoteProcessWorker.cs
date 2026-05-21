@@ -67,10 +67,12 @@ public class NoteProcessWorker : BackgroundService
         try
         {
             _logger.LogInformation("Starting AI summarization...");
-            var summary = await ai.SummarizeAsync(message.Content ?? "");
+            NoteAiResultDto result = await ai.SummarizeAsync(message.Content ?? "");
+            var summary = result.Summary;
             _logger.LogInformation("AI summarization completed.");
             _logger.LogInformation($"Summary: {summary}");
             note.Summary = summary;
+            note.Title = result.Title;
             note.Status = NoteStatus.Completed;
         }
         catch (Exception ex)

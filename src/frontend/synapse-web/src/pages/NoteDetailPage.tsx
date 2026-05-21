@@ -54,17 +54,17 @@ export function NoteDetailPage() {
   
           <Link
             to="/"
-            className="text-sm text-blue-500 hover:underline"
+            className="text-sm text-blue-500 hover:underline mb-4 inline-block"
           >
             ← Back
           </Link>
   
-          <div className="bg-white rounded-xl shadow p-6 mt-4">
+          <div className="bg-white rounded-xl shadow p-8 mt-1">
   
             <div className="flex justify-between items-center">
   
-              <h1 className="text-2xl font-bold">
-                Note Detail
+              <h1 className="text-sm font-bold mb-2">
+                Note Detail: {note.title}
               </h1>
   
               <span className="text-sm text-gray-500">

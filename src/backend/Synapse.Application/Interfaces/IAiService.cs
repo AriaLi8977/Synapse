@@ -1,5 +1,5 @@
 
 public interface IAiService
 {
-    Task<string> SummarizeAsync(string content);
+    Task<NoteAiResultDto> SummarizeAsync(string content);
 }
