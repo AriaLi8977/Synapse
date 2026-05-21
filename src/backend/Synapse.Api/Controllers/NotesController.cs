@@ -44,4 +44,41 @@ public class NotesController : ControllerBase
         var note = await _useCase.ExecuteAsync(dto.Content, Guid.Parse(userId));
         return Ok(note);
     }
+
+    [HttpGet("GetNotes/{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+            return Unauthorized();
+        var note = await _noteService.GetByIdAsync(id, Guid.Parse(userId));
+        if (note == null)
+            return NotFound();
+        return Ok(note);
+    }
+
+    [HttpPut("UpdateNotes/{id}")]
+    public async Task<IActionResult> Update(Guid id, UpdateNoteDto dto)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+            return Unauthorized();
+        var note = await _noteService.GetByIdAsync(id, Guid.Parse(userId));
+        if (note == null)
+            return NotFound();
+        await _noteService.UpdateAsync(id, dto, Guid.Parse(userId));
+        return NoContent();
+    }
+    [HttpDelete("DeleteNotes/{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (userId == null)
+            return Unauthorized();
+        var note = await _noteService.GetByIdAsync(id, Guid.Parse(userId));
+        if (note == null)
+            return NotFound();
+        await _noteService.DeleteAsync(id, Guid.Parse(userId));
+        return NoContent();
+    }
 }

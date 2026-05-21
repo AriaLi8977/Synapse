@@ -20,4 +20,35 @@ public class NoteService : INoteService
         return await _noteRepository.GetAllAsync(userId);
     }
 
+    public async Task<Note?> GetByIdAsync(Guid id, Guid userId)
+    {
+        var note = await _noteRepository.GetByIdAsync(id);
+        if (note == null || note.UserId != userId)
+            return null;
+        return note;
+    }
+
+    public async Task UpdateAsync(Guid id, UpdateNoteDto dto, Guid userId)
+    {
+        var note = await _noteRepository.GetByIdAsync(id);
+        if (note == null || note.UserId != userId)
+            throw new Exception("Note not found or access denied");
+        note.Content = dto.Content;
+        //note.Summary = dto.Summary; //going to create a re-generate summary use case instead of doing it here
+        //note.Status = dto.Status; //same as above, will handle status changes in a separate use case
+        await _noteRepository.UpdateAsync(note);
+        await _messageBus.PublishAsync(new NoteMessageDto
+        {
+            NoteId = note.Id,
+            Content = note.Content
+        });
+    }
+
+    public async Task DeleteAsync(Guid id, Guid userId)
+    {
+        var note = await _noteRepository.GetByIdAsync(id);
+        if (note == null || note.UserId != userId)
+            throw new Exception("Note not found or access denied");
+        await _noteRepository.DeleteAsync(id);
+    }
 }

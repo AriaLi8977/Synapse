@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { noteHub } from "../signalr/noteHub";
 import { createNote, getNotes } from "../api/notesApi";
 import type { Note } from "../types/note";
@@ -6,14 +7,13 @@ import { NoteCard } from "../components/NoteCard";
 import { NoteForm } from "../components/NoteForm";
 import { Navbar } from "../components/Navbar";
 
-interface Props{
-    onLogout: ()=> void;
-}
-
-export function HomePage({onLogout}: Props){
+export function HomePage(){
     const [notes, setNotes] = useState<Note[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [creating, setCreating] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
+    const navigate = useNavigate();
 
     useEffect(()=>{
         async function loadNotes(){ 
@@ -48,21 +48,34 @@ export function HomePage({onLogout}: Props){
 
     const handleCreate = async (content: string) => {
         try{
-            const newNote = await createNote(content);
+            setCreating(true);
+            setSuccessMessage("");
+
+            const result = await createNote(content);
+
+            const newNote: Note = {
+              id: result.noteId,
+              content,
+              status: "Processing",
+              createdAt: new Date().toISOString(),
+            };
+
             setNotes((prev) => [newNote,...prev]);
             await noteHub.joinNoteGroup(newNote.id);
+            setSuccessMessage("Note created successfully!");
         }catch{
-                alert("Failed to create note: ");
-                return;
+            alert("Failed to create note: ");
+            return;
+        }finally{
+            setCreating(false);
         }
-        
     };
 
     return (
         <div className="min-h-screen bg-gray-100 p-8">
           <div className="max-w-3xl mx-auto">
       
-            <Navbar onLogout={onLogout} />
+            <Navbar onLogout={()=>navigate("/login")} />
       
             <div className="bg-white rounded-xl shadow p-6">
       
@@ -70,7 +83,8 @@ export function HomePage({onLogout}: Props){
                 Synapse AI Notes
               </h1>
       
-              <NoteForm onCreate={handleCreate} />
+              <NoteForm onCreate={handleCreate} 
+                        creating={creating}/>
       
             </div>
       
@@ -84,6 +98,12 @@ export function HomePage({onLogout}: Props){
               <div className="mt-6 text-red-500">
                 {error}
               </div>
+            )}
+
+            {successMessage && (
+                <div className="mt-6 text-green-500">
+                    {successMessage}
+                </div>
             )}
       
             <div className="mt-6 space-y-4">

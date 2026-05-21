@@ -8,4 +8,5 @@ public interface INoteRepository
     Task<Note?> GetByIdAsync(Guid id);
 
     Task UpdateAsync(Note note);
+    Task DeleteAsync(Guid id);
 }

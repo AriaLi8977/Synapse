@@ -1,44 +1,29 @@
-import { useState, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { HomePage } from "./pages/HomePage";
-import { LoginPage, Test } from "./pages/LoginPage";
+import { LoginPage} from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import { NoteDetailPage } from "./pages/NoteDetailPage";
 import { getToken } from "./auth/tokenStorage";
-
-type AuthMode = "login" | "register"; 
+import { useState } from "react";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const [mode, setMode] = useState<AuthMode>("login");
-
-  useEffect(()=>{
-    const token = getToken();
-    setIsAuthenticated(!!token);
-  }, [])
+  const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
 
   if (!isAuthenticated) {
-    if (mode === "login") {
-      return (
-        // <Test/>
-        <LoginPage
-          onLoginSuccess={() => setIsAuthenticated(true)}
-          onGoToRegister={() => setMode("register")}
-        />
-      );
-    }
-
-    return (
-      <RegisterPage
-        onRegisterSuccess={() => setIsAuthenticated(true)}
-        onGoToLogin={() => setMode("login")}
-      />
-    );
+    return(
+      <Routes>
+        <Route path="/login" element={<LoginPage onLogin={()=> setIsAuthenticated(true)}/>} />
+        <Route path="/register" element={<RegisterPage onRegister={()=> setIsAuthenticated(true)}/>} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    )
   }
 
   return (
-    <HomePage
-      onLogout={() => setIsAuthenticated(false)}
-    />
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/notes/:id" element={<NoteDetailPage />} />
+    </Routes>
   );
 }
 

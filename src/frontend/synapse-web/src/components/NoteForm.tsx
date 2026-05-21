@@ -2,9 +2,10 @@ import { useState } from "react";
 
 interface Props{
     onCreate: (content: string) => Promise<void>;
+    creating: boolean;
 }
 
-export function NoteForm({ onCreate }: Props){
+export function NoteForm({ onCreate, creating }: Props){
     const [content, setContent] = useState("");
 
     const handleCreate = async () => {
@@ -31,6 +32,7 @@ export function NoteForm({ onCreate }: Props){
           />
       
           <button
+            disabled={creating}
             onClick={handleCreate}
             className="
               mt-4
@@ -41,7 +43,7 @@ export function NoteForm({ onCreate }: Props){
               rounded-lg
             "
           >
-            Create Note
+            {creating ? "Creating..." : "Create Note"}
           </button>
         </div>
       );

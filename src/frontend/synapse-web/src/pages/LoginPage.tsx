@@ -1,11 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { login } from "../api/authApi";
 import { saveToken } from "../auth/tokenStorage";
 
 interface Props{
-    onLoginSuccess: () => void;
-    onGoToRegister: () => void;
+    onLogin: () => void;
 }
+
 export function Test() {
     return (
       <div className="bg-red-500 text-white p-10">
@@ -14,15 +15,17 @@ export function Test() {
     );
   }
 
-export function LoginPage({ onLoginSuccess, onGoToRegister}: Props){
+export function LoginPage( { onLogin }: Props){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async()=>{
         try{
             const data = await login(email, password);
             saveToken(data.token);
-            onLoginSuccess();
+            onLogin();
+            navigate("/");
         }catch(error){
             alert("Login failed: " + error.message);
         }
@@ -46,7 +49,7 @@ export function LoginPage({ onLoginSuccess, onGoToRegister}: Props){
             <br/><br/>
             <button onClick={handleLogin}>Login</button>
             <br/><br/>
-            <button onClick={onGoToRegister}>Register</button>
+            <button onClick={()=>navigate("/register")}>Register</button>
         </div>
     )
 }

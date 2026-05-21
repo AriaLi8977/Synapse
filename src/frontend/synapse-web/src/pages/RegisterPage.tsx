@@ -1,17 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { register } from "../api/authApi";
 import { saveToken } from "../auth/tokenStorage";
 
 interface Props{
-    onRegisterSuccess: () => void;
-    onGoToLogin: () => void;
+    onRegister: () => void;
 }
+export function RegisterPage( { onRegister }: Props){
 
-export function RegisterPage({
-    onRegisterSuccess,
-    onGoToLogin,
-}: Props){
-
+const navigate = useNavigate();
     const [email,setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setUserName] = useState("");
@@ -20,7 +17,8 @@ export function RegisterPage({
         try{
             const data = await register(name, email, password);
             saveToken(data.token);
-            onRegisterSuccess();
+            onRegister();
+            navigate("/");
         }catch(error){
             alert("Registration failed: " + error.message);
         }
@@ -46,7 +44,7 @@ export function RegisterPage({
             <br/><br/>
             <button onClick={handleRegister}>Register</button>
             <br/><br/>
-            <button onClick={onGoToLogin}>Back to Login</button>
+            <button onClick={()=>navigate("/login")}>Back to Login</button>
         </div>
     )
 }

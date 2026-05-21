@@ -44,4 +44,13 @@ public class NoteRepository : INoteRepository
         existing.Status = note.Status;
         await _db.SaveChangesAsync();
     }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var note = await _db.Notes.FindAsync(id);
+        if (note == null)
+            throw new Exception("Note not found");
+        _db.Notes.Remove(note);
+        await _db.SaveChangesAsync();
+    }
 }

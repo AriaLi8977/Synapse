@@ -1,4 +1,5 @@
 import type { Note } from "../types/note";
+import { Link } from "react-router-dom";
 
 interface Props{ note: Note;}
 
@@ -31,7 +32,7 @@ export function NoteCard({ note }: Props) {
         <div className="flex justify-between items-center">
   
           <h3 className="font-semibold text-lg">
-            Note
+            Note ID: <Link to={`/notes/${note.id}`} className="text-blue-600 hover:underline">{note.id}</Link>
           </h3>
   
           <span className={`text-sm rounded-full font-medium ${statusInfo.color} px-2 py-1`}>
