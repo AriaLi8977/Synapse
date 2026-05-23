@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { noteHub } from "../signalr/noteHub";
-import { createNote, getNotes } from "../api/notesApi";
+import { createNote, getNotes, deleteNote } from "../api/notesApi";
 import type { Note } from "../types/note";
 import { NoteCard } from "../components/NoteCard";
 import { NoteForm } from "../components/NoteForm";
@@ -71,6 +71,14 @@ export function HomePage(){
             setCreating(false);
         }
     };
+
+    const handleDelete = async (noteId: string) => {
+        try{
+
+        }
+
+    }
+
 
     return (
         <div className="min-h-screen bg-gray-100 p-8">

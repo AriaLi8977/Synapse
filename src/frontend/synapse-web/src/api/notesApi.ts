@@ -65,7 +65,7 @@ export async function getNoteById(noteId: string){
 
 export async function updateNote(noteId: string, content: string){
     const token = getToken();
-    const response = await fetch(`${API_BASE}/UpdateNote/${noteId}`,{
+    const response = await fetch(`${API_BASE}/UpdateNotes/${noteId}`,{
         method:"PUT",
         headers:{
             "Content-Type":"application/json",
@@ -80,7 +80,7 @@ export async function updateNote(noteId: string, content: string){
 
 export async function deleteNote(noteId: string){
     const token = getToken();
-    const response = await fetch(`${API_BASE}/DeleteNote/${noteId}`,{
+    const response = await fetch(`${API_BASE}/DeleteNotes/${noteId}`,{
         method:"DELETE",
         headers:{
             Authorization: `Bearer ${token}`,

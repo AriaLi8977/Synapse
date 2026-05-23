@@ -48,63 +48,120 @@ export function NoteDetailPage() {
       }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
+        <div className="min-h-screen bg-gray-100 p-6">
 
         <div className="max-w-3xl mx-auto">
-  
-          <Link
-            to="/"
-            className="text-sm text-blue-500 hover:underline mb-4 inline-block"
-          >
-            ← Back
-          </Link>
-  
-          <div className="bg-white rounded-xl shadow p-8 mt-1">
-  
-            <div className="flex justify-between items-center">
-  
-              <h1 className="text-sm font-bold mb-2">
-                Note Detail: {note.title}
-              </h1>
-  
-              <span className="text-sm text-gray-500">
-                {note.status}
-              </span>
+
+            <div className="bg-white rounded-2xl shadow-sm p-8">
+
+            <div className="
+                flex flex-col
+                items-end
+                gap-3
+            ">
+                <Link
+                to="/"
+                className="
+                    inline-flex items-center
+                    text-sm text-blue-600
+                    hover:underline mb-4
+                "
+            >
+                ← Back
+            </Link>
+
+                    <div className="flex-1 min-w-0">
+
+                        <p className="
+                            text-s uppercase tracking-wide
+                            text-gray-400 mb-2
+                        ">
+                            Note Detail
+                        </p>
+
+                        <h1 className="
+                            text-lg 
+                            text-gray-900
+                            break-words
+                            leading-tight
+                        ">
+                            {note.title || "Untitled Note"}
+                        </h1>
+                    </div>
+
+                    {/* <div>
+
+                        <span className="
+                            inline-flex items-center
+                            rounded-full
+                            bg-gray-100
+                            px-3 py-1
+                            text-xs font-medium
+                            text-gray-700
+                        ">
+                            {note.status}
+                        </span>
+                    </div> */}
+                </div>
+
+                <div className="mt-8">
+
+                    <h2 className="
+                        text-sm font-semibold
+                        text-gray-500 uppercase
+                        tracking-wide mb-3
+                    ">
+                        Content
+                    </h2>
+
+                    <div className="
+                        text-gray-700
+                        whitespace-pre-wrap
+                        leading-7
+                    ">
+                        {note.content}
+                    </div>
+                </div>
+
+                {note.summary && (
+
+                    <div className="
+                        mt-8
+                        rounded-xl
+                        bg-gray-50
+                        border border-gray-200
+                        p-5
+                    ">
+
+                        <h2 className="
+                            text-sm font-semibold
+                            text-gray-500 uppercase
+                            tracking-wide mb-3
+                        ">
+                            AI Summary
+                        </h2>
+
+                        <div className="
+                            text-gray-700
+                            whitespace-pre-wrap
+                            leading-7
+                        ">
+                            {note.summary}
+                        </div>
+                    </div>
+                )}
+
+                <div className="
+                    mt-8 pt-6
+                    border-t border-gray-200
+                    text-sm text-gray-500
+                ">
+                    Created at{" "}
+                    {new Date(note.createdAt)
+                        .toLocaleString()}
+                </div>
             </div>
-  
-            <div className="mt-6">
-  
-              <h2 className="font-semibold mb-2">
-                Content
-              </h2>
-  
-              <p className="text-gray-700 whitespace-pre-wrap">
-                {note.content}
-              </p>
-            </div>
-  
-            {note.summary && (
-              <div className="mt-6">
-  
-                <h2 className="font-semibold mb-2">
-                  AI Summary
-                </h2>
-  
-                <p className="text-gray-700">
-                  {note.summary}
-                </p>
-              </div>
-            )}
-  
-            <div className="mt-6 text-sm text-gray-500">
-  
-              Created at:
-              {" "}
-              {new Date(note.createdAt)
-                .toLocaleString()}
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
     );
 }

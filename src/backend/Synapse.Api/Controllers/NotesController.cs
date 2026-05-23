@@ -15,13 +15,16 @@ namespace Synapse.Api.Controllers;
 public class NotesController : ControllerBase
 {
     private readonly INoteService _noteService;
-    private readonly CreateNoteUseCase _useCase;
+    private readonly CreateNoteUseCase _createUseCase;
+    private readonly DeleteNoteUseCase _deleteUseCase;
 
     public NotesController(INoteService noteService,
-                            CreateNoteUseCase useCase)
+                            CreateNoteUseCase createUseCase,
+                            DeleteNoteUseCase deleteUseCase)
     {
         _noteService = noteService;
-        _useCase = useCase;
+        _createUseCase = createUseCase;
+        _deleteUseCase = deleteUseCase;
     }
 
 
@@ -41,7 +44,7 @@ public class NotesController : ControllerBase
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
             return Unauthorized();
-        var note = await _useCase.ExecuteAsync(dto.Content, Guid.Parse(userId));
+        var note = await _createUseCase.ExecuteAsync(dto.Content, Guid.Parse(userId));
         return Ok(note);
     }
 
@@ -75,10 +78,7 @@ public class NotesController : ControllerBase
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
             return Unauthorized();
-        var note = await _noteService.GetByIdAsync(id, Guid.Parse(userId));
-        if (note == null)
-            return NotFound();
-        await _noteService.DeleteAsync(id, Guid.Parse(userId));
+        var note = await _deleteUseCase.ExecuteAsync(id, Guid.Parse(userId));
         return NoContent();
     }
 }

@@ -1,4 +1,8 @@
-🧠 AI Note Processing System
+# Synapse
+
+AI-powered real-time note platform built with .NET, React, Azure Service Bus, SignalR, and JWT authentication.
+
+![App Screenshot](./docs/screenshots/homepage.png)
 
 Event-driven note management system with AI-powered summarization, built using .NET and Azure.
 
