@@ -3,6 +3,7 @@ import { getToken } from "../auth/tokenStorage";
 
 class NoteHubService {
     private connection: signalR.HubConnection;
+    private startPromise: Promise<void> | null = null;
 
     constructor(){
         this.connection = new signalR.HubConnectionBuilder()
@@ -13,13 +14,32 @@ class NoteHubService {
             .build();
     }
 
-    async start(){
-        if(this.connection.state === signalR.HubConnectionState.Disconnected){
-            await this.connection.start();
+    async start() {
+        if (this.connection.state === signalR.HubConnectionState.Connected) {
+            return;
         }
+
+        if (this.startPromise) {
+            return this.startPromise;
+        }
+
+        this.startPromise = this.connection
+            .start()
+            .then(() => {
+                console.log("SignalR connected");
+            })
+            .catch((err) => {
+                console.error("SignalR start failed:", err);
+                this.startPromise = null;
+                throw err;
+            });
+
+        return this.startPromise;
     }
+
     async joinNoteGroup(noteId: string){
         await this.start();
+
         await this.connection.invoke("JoinNoteGroup", noteId);
     }
 

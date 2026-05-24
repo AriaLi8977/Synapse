@@ -50,7 +50,7 @@ export async function getNoteDetail(noteId: string){
 
 export async function getNoteById(noteId: string){
     const token = getToken();
-    const response = await fetch(`${API_BASE}/GetNotes/${noteId}`,{
+    const response = await fetch(`${API_BASE}/GetNoteById/${noteId}`,{
         method:"GET",
         headers:{
             Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ export async function getNoteById(noteId: string){
 
 export async function updateNote(noteId: string, content: string){
     const token = getToken();
-    const response = await fetch(`${API_BASE}/UpdateNotes/${noteId}`,{
+    const response = await fetch(`${API_BASE}/UpdateNote/${noteId}`,{
         method:"PUT",
         headers:{
             "Content-Type":"application/json",
@@ -76,11 +76,12 @@ export async function updateNote(noteId: string, content: string){
     if(!response.ok){
         throw new Error("Failed to update note");
     }
+    return await response.json();
 }
 
 export async function deleteNote(noteId: string){
     const token = getToken();
-    const response = await fetch(`${API_BASE}/DeleteNotes/${noteId}`,{
+    const response = await fetch(`${API_BASE}/DeleteNote/${noteId}`,{
         method:"DELETE",
         headers:{
             Authorization: `Bearer ${token}`,
@@ -90,4 +91,5 @@ export async function deleteNote(noteId: string){
     if(!response.ok){
         throw new Error("Failed to delete note");
     }
+    return await response.json();
 }

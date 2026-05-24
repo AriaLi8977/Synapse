@@ -31,6 +31,7 @@ builder.Services.AddScoped<IMessageBus, ServiceBus>();
 builder.Services.AddScoped<INotificationService, SignalRNotificationService>();
 
 builder.Services.AddScoped<CreateNoteUseCase>();
+builder.Services.AddScoped<DeleteNoteUseCase>();
 
 builder.Configuration.AddEnvironmentVariables();
 

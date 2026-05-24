@@ -1,3 +1,7 @@
+using Synapse.Application.Interfaces;
+using Synapse.Application.DTOs;
+using Synapse.Domain.Entities;
+using Synapse.Domain.Enums;
 
 namespace Synapse.Application.UseCases;
 
@@ -10,11 +14,12 @@ public class DeleteNoteUseCase
         _noteRep = noteRep;
     }
 
-    public async Task ExecuteAsync(Guid id, Guid userId)
+    public async Task<bool> ExecuteAsync(Guid id, Guid userId)
     {
         var note = await _noteRep.GetByIdAsync(id);
         if (note == null || note.UserId != userId)
-            throw new Exception("Note not found or access denied");
+            return false;
         await _noteRep.DeleteAsync(id);
+        return true;
     }
 }

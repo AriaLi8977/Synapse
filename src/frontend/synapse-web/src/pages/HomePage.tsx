@@ -29,7 +29,13 @@ export function HomePage(){
         }
         loadNotes();
 
-        noteHub.start();
+        (async () => {
+            try {
+                await noteHub.start();
+            } catch (err) {
+                console.error("SignalR connection failed:", err);
+            }
+        })();
 
         noteHub.onNoteProcessing((data)=>{
             setNotes((prev)=>
@@ -62,10 +68,11 @@ export function HomePage(){
             };
 
             setNotes((prev) => [newNote,...prev]);
-            await noteHub.joinNoteGroup(newNote.id);
+            //await noteHub.joinNoteGroup(newNote.id);
             setSuccessMessage("Note created successfully!");
-        }catch{
-            alert("Failed to create note: ");
+        }catch(error){
+            console.error("Failed to create note:", error);
+            alert(`Failed to create note: ${error}`);
             return;
         }finally{
             setCreating(false);
@@ -74,10 +81,14 @@ export function HomePage(){
 
     const handleDelete = async (noteId: string) => {
         try{
-
+            await deleteNote(noteId);
+            setNotes((prev) => prev.filter((note) => note.id !== noteId));
+        }catch{
+            alert("Failed to delete note: ");
+            return;
         }
 
-    }
+    };
 
 
     return (
@@ -117,7 +128,7 @@ export function HomePage(){
       
             <div className="mt-6 space-y-4">
               {notes.map((note) => (
-                <NoteCard key={note.id} note={note} />
+                <NoteCard key={note.id} note={note} onDelete={handleDelete}/>
               ))}
             </div>
           </div>

@@ -17,7 +17,8 @@ public class NoteService : INoteService
 
     public async Task<List<Note>> GetAllAsync(Guid userId)
     {
-        return await _noteRepository.GetAllAsync(userId);
+        var notes = await _noteRepository.GetAllAsync(userId);
+        return notes.OrderByDescending(x => x.CreatedAt).ToList();
     }
 
     public async Task<Note?> GetByIdAsync(Guid id, Guid userId)
@@ -44,11 +45,11 @@ public class NoteService : INoteService
         });
     }
 
-    public async Task DeleteAsync(Guid id, Guid userId)
-    {
-        var note = await _noteRepository.GetByIdAsync(id);
-        if (note == null || note.UserId != userId)
-            throw new Exception("Note not found or access denied");
-        await _noteRepository.DeleteAsync(id);
-    }
+    // public async Task DeleteAsync(Guid id, Guid userId)
+    // {
+    //     var note = await _noteRepository.GetByIdAsync(id);
+    //     if (note == null || note.UserId != userId)
+    //         throw new Exception("Note not found or access denied");
+    //     await _noteRepository.DeleteAsync(id);
+    // }
 }

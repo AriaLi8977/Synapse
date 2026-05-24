@@ -48,7 +48,7 @@ public class NotesController : ControllerBase
         return Ok(note);
     }
 
-    [HttpGet("GetNotes/{id}")]
+    [HttpGet("GetNoteById/{id}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -60,25 +60,42 @@ public class NotesController : ControllerBase
         return Ok(note);
     }
 
-    [HttpPut("UpdateNotes/{id}")]
-    public async Task<IActionResult> Update(Guid id, UpdateNoteDto dto)
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        if (userId == null)
-            return Unauthorized();
-        var note = await _noteService.GetByIdAsync(id, Guid.Parse(userId));
-        if (note == null)
-            return NotFound();
-        await _noteService.UpdateAsync(id, dto, Guid.Parse(userId));
-        return NoContent();
-    }
-    [HttpDelete("DeleteNotes/{id}")]
+    // [HttpPut("UpdateNote/{id}")]
+    // public async Task<IActionResult> Update(Guid id, UpdateNoteDto dto)
+    // {
+    //     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    //     if (userId == null)
+    //         return Unauthorized();
+    //     var note = await _noteService.GetByIdAsync(id, Guid.Parse(userId));
+    //     if (note == null)
+    //         return NotFound();
+    //     var result = await _noteService.UpdateAsync(id, dto, Guid.Parse(userId));
+    //     if (result)
+    //     {
+    //         return Ok(new { Message = "Note updated successfully." });
+    //     }
+    //     else
+    //     {
+    //         return BadRequest(new { Message = "Failed to update the note." });
+    //     }
+    // }
+
+
+    [HttpDelete("DeleteNote/{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
             return Unauthorized();
-        var note = await _deleteUseCase.ExecuteAsync(id, Guid.Parse(userId));
-        return NoContent();
+
+        var success = await _deleteUseCase.ExecuteAsync(id, Guid.Parse(userId));
+        if (success)
+        {
+            return Ok(new { Message = "Note deleted successfully." });
+        }
+        else
+        {
+            return BadRequest(new { Message = "Failed to delete the note." });
+        }
     }
 }
