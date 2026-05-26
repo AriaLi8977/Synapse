@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synapse.Domain", "Synapse.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synapse.Infrastructure", "Synapse.Infrastructure\Synapse.Infrastructure.csproj", "{C09A8CFD-3509-4E18-88A3-25D2A451B283}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{D374DB4B-3E07-4C00-98FC-F6F8313558D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Synapse.Api.Tests", "backend\Synapse.Api.Tests\Synapse.Api.Tests.csproj", "{B323D2A0-18E7-4DB7-A625-0EB6BD1149A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,12 @@ Global
 		{C09A8CFD-3509-4E18-88A3-25D2A451B283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C09A8CFD-3509-4E18-88A3-25D2A451B283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C09A8CFD-3509-4E18-88A3-25D2A451B283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B323D2A0-18E7-4DB7-A625-0EB6BD1149A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B323D2A0-18E7-4DB7-A625-0EB6BD1149A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B323D2A0-18E7-4DB7-A625-0EB6BD1149A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B323D2A0-18E7-4DB7-A625-0EB6BD1149A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B323D2A0-18E7-4DB7-A625-0EB6BD1149A7} = {D374DB4B-3E07-4C00-98FC-F6F8313558D1}
 	EndGlobalSection
 EndGlobal

@@ -163,3 +163,7 @@ app.MapControllers();
 app.MapGet("/", () => "Synapse API is running!");
 
 app.Run();
+
+public partial class Program
+{
+}
