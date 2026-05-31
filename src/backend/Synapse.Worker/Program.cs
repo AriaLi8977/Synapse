@@ -7,15 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using Synapse.Infrastructure.Data;
 using Synapse.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
-
+using Synapse.Infrastructure;
 Env.Load("../../../.env");
 
 var builder = Host.CreateApplicationBuilder(args);
 
 // Add DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddSignalR();
 builder.Services.AddHttpClient<IAiService, AiService>();

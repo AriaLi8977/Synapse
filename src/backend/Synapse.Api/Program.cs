@@ -3,6 +3,7 @@ using Synapse.Application.Services;
 using Synapse.Application.UseCases;
 using Synapse.Infrastructure.Data;
 using Synapse.Infrastructure.Services;
+using Synapse.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -70,11 +71,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+
 // Add DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
-//     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=synapse.db"));
+// move to infrastructure project
+builder.Services.AddInfrastructure(builder.Configuration);
 
 
 var jwtSettings = builder.Configuration
