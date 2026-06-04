@@ -20,9 +20,17 @@ public class AuthService : IAuthService
         _jwtSettings = jwtOptions.Value;
     }
 
-    public async Task<string> RegisterAsync(RegisterDto dto)
+    public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
     {
-        if (await _userRepository.ExistsAsync(dto.Email)) return "Email already in use";
+        if (await _userRepository.ExistsAsync(dto.Email))
+        {
+            return new AuthResponseDto
+            {
+                Success = false,
+                Code = "EMAIL_EXISTS",
+                Message = "Email already in use."
+            };
+        }
 
         var user = new Domain.Entities.User
         {
@@ -30,18 +38,37 @@ public class AuthService : IAuthService
             Email = dto.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
         };
+
         await _userRepository.AddAsync(user);
-        return GenerateJwt(user);
+        
+        return new AuthResponseDto
+        {
+            Success = true,
+            Code = "Registration Successful",
+            Token = GenerateJwt(user)
+        };
     }
 
-    public async Task<string> LoginAsync(LoginDto dto)
+    public async Task<AuthResponseDto> LoginAsync(LoginDto dto)
     {
         var user = await _userRepository.GetByEmailAsync(dto.Email);
 
         if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
-            throw new Exception("Invalid credentials");
+        {
+            return new AuthResponseDto
+            {
+                Success = false,
+                Code = "INVALID_CREDENTIALS",
+                Message = "Invalid email or password"
+            };
+        }
 
-        return GenerateJwt(user);
+        return new AuthResponseDto
+        {
+            Success = true,
+            Code = "Registration Successful",
+            Token = GenerateJwt(user)
+        };
     }
 
     private string GenerateJwt(User user)

@@ -18,19 +18,18 @@ public class AuthController : ControllerBase{
     [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto dto){
-        if(!ModelState.IsValid)
-            return BadRequest(ModelState);
-        var token = await _authService.RegisterAsync(dto);
-        return Ok(new { token });
+        var result = await _authService.RegisterAsync(dto);
+
+        if (!result.Success) return BadRequest(result);
+        return Ok(result);
     }
 
     [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto dto){
-        if(!ModelState.IsValid)
-            return BadRequest(ModelState);
-        var token = await _authService.LoginAsync(dto);
-        return Ok(new { token });
+        var result = await _authService.LoginAsync(dto);
+        if (!result.Success) return Unauthorized(result);
+        return Ok(result);
     }
     
 }
